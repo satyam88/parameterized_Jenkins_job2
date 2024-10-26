@@ -4,7 +4,7 @@ pipeline {
     parameters {
         choice(
             name: 'AWS_REGION',
-            choices: ['us-east-1', 'us-west-1', 'us-west-2', 'eu-central-1', 'eu-west-1'], 
+            choices: ['us-east-1', 'us-west-1', 'us-west-2', 'eu-central-1', 'eu-west-1', 'ap-south-1'], 
             description: 'Select the AWS region'
         )
     }
