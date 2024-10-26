@@ -15,6 +15,11 @@ pipeline {
 
     stages {
         stage('List AWS Resources') {
+            environment {
+                // Fetch AWS credentials from Jenkins securely
+                AWS_ACCESS_KEY_ID = credentials('aws-credentials-id').username
+                AWS_SECRET_ACCESS_KEY = credentials('aws-credentials-id').password
+            }
             steps {
                 script {
                     echo "Listing resources in the region: ${AWS_REGION}"
@@ -26,24 +31,4 @@ pipeline {
                     """
 
                     // List all EBS volumes
-                    echo "Fetching EBS Volumes..."
-                    sh """
-                        aws ec2 describe-volumes --region ${AWS_REGION} --query "Volumes[*].{VolumeId:VolumeId, Size:Size, State:State}" --output table
-                    """
-
-                    // List all Security Groups
-                    echo "Fetching Security Groups..."
-                    sh """
-                        aws ec2 describe-security-groups --region ${AWS_REGION} --query "SecurityGroups[*].{GroupName:GroupName, GroupId:GroupId, Description:Description, VpcId:VpcId}" --output table
-                    """
-
-                    // List all Elastic IPs
-                    echo "Fetching Elastic IPs..."
-                    sh """
-                        aws ec2 describe-addresses --region ${AWS_REGION} --query "Addresses[*].{PublicIp:PublicIp, InstanceId:InstanceId}" --output table
-                    """
-                }
-            }
-        }
-    }
-}
+                    echo "Fetch
